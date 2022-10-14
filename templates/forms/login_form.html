@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+{#      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">#}
+{#          <div class="row">#}
+          <h1 class="h2">Zaloguj się</h1>
+{#            </div>#}
+            <div class="row">
+                <div class="col">
+                <form action="#" method="post" class="form-group form-text col-md-4">
+                {% csrf_token %}
+                {{ form.login.label }}<br>
+                {{ form.login }}<br>
+                {{ form.login.errors }}<br>
+                {{ form.password.label }}<br>
+                {{ form.password }}<br>
+                {{ form.password.errors }}<br>
+                <input type="submit" value="Login" class="form-control col-md-3">
+                </form>
+                </div>
+            </div>
+{#      </div>#}
+    </main>
+{% endblock %}
