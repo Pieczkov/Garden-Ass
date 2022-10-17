@@ -31,12 +31,6 @@ class AddTaskForm(forms.ModelForm):
 
 
 class AddPlanOfWorkForm(forms.ModelForm):
-    tasks = Task.objects.all()
-    task_ids = [task.id for task in tasks]
-    task = forms.ModelMultipleChoiceField(
-        queryset=Task.objects.filter(id__in=task_ids),
-        widget=forms.SelectMultiple
-    )
 
     class Meta:
         model = PlanOfWork
@@ -47,11 +41,6 @@ class AddPlanOfWorkForm(forms.ModelForm):
             'date': forms.SelectDateWidget(attrs={'class': 'form-control'}),
 
         }
-
-        def clean(self):
-            data = super().clean()
-            return data
-
 
 
 

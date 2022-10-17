@@ -4,7 +4,7 @@
 {% block content %}
 
 
-
+{% endblock %}
 {% block table %}
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <h2>Task List</h2>
@@ -16,6 +16,7 @@
               <th>Name</th>
               <th>Plant</th>
               <th>Description</th>
+              <th>Plan</th>
 
 
             </tr>
@@ -29,7 +30,12 @@
               <td>{{ task.plant.name }}</td>
               <td>{{ task.description }}</td>
 
-            <td>{% for plan in task.plan.all %}{{ plan.name }}{% endfor %}</td>
+                <td>
+                    {% for plan in task.plan.all %}
+                    <ol>{{ plan.name }}</ol>
+                    {% endfor %}
+                </td>
+              
 
 
             </tr>
@@ -38,5 +44,5 @@
         </table>
       </div>
     </main>
-{% endblock %}
+
 {% endblock %}

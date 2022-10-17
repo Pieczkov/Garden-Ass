@@ -3,7 +3,7 @@
 
 {% block content %}
 
-
+{% endblock %}
 
 {% block table %}
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -26,22 +26,28 @@
           {% for plan in plans %}
             <tr>
               <td>{{ plan.id }}</td>
-                <td><a href="/task_view/{{ plan.id }}" class="">{{ plan.name }}</a></td>
+                <td><a href="/plan_view/{{ plan.id }}" class="">{{ plan.name }}</a></td>
 
               <td>{{ plan.description }}</td>
               <td>{{ plan.created }}</td>
+              <td>{{ plan.date }}</td>
+            <td>
+                <div>
+              {% for task in plan.task_set.all %}
+                <ol>
+                    {{ task.name }}
+                </ol>
 
-            <td>{{ plan.date }}</td>
-                {% for task in plan.task_set.all %}
-            <td>{{ task.name }}</td>
+
                     {% endfor %}
 
-
+                </div>
+            </td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
     </main>
-{% endblock %}
+
 {% endblock %}}

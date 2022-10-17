@@ -4,7 +4,7 @@
 {% block content %}
 
 
-
+{% endblock %}
 {% block table %}
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <h2>Plants list</h2>
@@ -26,16 +26,24 @@
           {% for plant in plants %}
             <tr>
               <td>{{ plant.id }}</td>
-                <td><a href="/plant_view/{{ plant.id }}" class="">{{ plant.name }}</a></td>
+                <td><a>{{ plant.name }}</a></td>
                 <td>{{ plant.type.name }}</td>
               <td>{{ plant.species }}</td>
               <td>{{ plant.description }}</td>
               <td>{{ plant.amount }}</td>
+              <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                    <a href="/plant_list/delete/{{ plant.id }}/"
+                       class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                    <a href="/plan/{{ plan.id }}/"
+                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                    <a href=""
+                       class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+                </td>
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
     </main>
-{% endblock %}
+
 {% endblock %}

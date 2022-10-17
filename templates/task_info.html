@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block table %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <h2>Task {{ task.name }}</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Plant</th>
+              <th>Plans</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ task.description }}</td>
+              <td>{{ task.plant }}</td>
+              <td>{% for plan in task.plan.all %}
+                  <ol>{{ plan.name }}</ol>
+                  {% endfor %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <div class="button col-md-3 inline-group float-left flex-column">
+            <button class="navbar-toggler active" type="button">
+      <span class="badge-light">
+          <a href="">Edit Task</a></span>
+            </button>
+        </div>
+        <div class="button col-md-3 inline-group float-left flex-column">
+            <button class="navbar-toggler active" type="button">
+          <span class="badge-light">
+              <a href="/task_view/delete/{{ task.id }}">Delete Task</a></span>
+            </button>
+        </div>
+    </main>
+{% endblock %}

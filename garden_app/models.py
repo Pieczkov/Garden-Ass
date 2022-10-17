@@ -20,7 +20,7 @@ class PlantType(models.Model):
 
 class Plant(models.Model):
     name = models.CharField(max_length=60)
-    species = models.CharField(null=True, max_length=60)
+    species = models.CharField(null=True, blank=True, max_length=60)
     description = models.TextField(blank=True, null=True)
     amount = models.IntegerField(default=1)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)

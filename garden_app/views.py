@@ -62,8 +62,15 @@ class AddPlantView(View):
 
 class PlantListView(View):
     def get(self, request):
-        plants = Plant.objects.all()
+        plants = Plant.objects.all().order_by('type__name')
         return render(request, 'plant_list.html', {'plants': plants})
+
+
+class PlantDelete(View):
+    def get(self, request, plant_id):
+        plant_to_delete = Plant.objects.get(id=plant_id)
+        plant_to_delete.delete()
+        return redirect('plant_list')
 
 
 class AddTaskView(View):
@@ -75,7 +82,7 @@ class AddTaskView(View):
         form = AddTaskForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('plant_list')
+            return redirect('plan_list')
         return render(request, 'forms/add_task_form.html', {
             'form': form, 'message': "Failed to register please fill in the form again"})
 
@@ -84,6 +91,19 @@ class TaskListView(View):
     def get(self, request):
         task_list = Task.objects.all()
         return render(request, 'task_list.html', {'tasks': task_list})
+
+
+class TaskView(View):
+    def get(self, request, task_id):
+        task = Task.objects.get(id=task_id)
+        return render(request, 'task_info.html', {'task': task})
+
+
+class TaskDelete(View):
+    def get(self, request, task_id):
+        task_to_delete = Task.objects.get(id=task_id)
+        task_to_delete.delete()
+        return redirect('task_list')
 
 
 class AddPlanOfWorkView(View):
@@ -95,15 +115,40 @@ class AddPlanOfWorkView(View):
         form = AddPlanOfWorkForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('plant_list')
+            return redirect('plan_list')
         return render(request, 'forms/add_plan_of_work.html', {
             'form': form, 'message': "Failed to register please fill in the form again"})
 
 
+class PlanView(View):
+    def get(self, request, plan_id):
+        plan = PlanOfWork.objects.get(id=plan_id)
+        return render(request, 'plan_info.html', {'plan': plan})
+
+
 class PlanOfWorkListView(View):
     def get(self, request):
-        plans = PlanOfWork.objects.all()
+        plans = PlanOfWork.objects.all().order_by('date')
         return render(request, 'plan_list.html', {'plans': plans})
+
+
+class AddTaskToPlanView(View):
+    def post(self, request):
+        task_to_add = Task.objects.all()
+        return render(request, 'forms/add_plan_of_work.html', {"task_to_add": task_to_add})
+
+    def get(self, request, plan_id):
+        task_name = request.POST.get('task_name')
+
+
+
+
+class PlanDelete(View):
+    def get(self, request, plan_id):
+        plan_to_delete = PlanOfWork.objects.get(id=plan_id)
+        plan_to_delete.delete()
+        return redirect('plan_list')
+
 
 
 

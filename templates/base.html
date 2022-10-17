@@ -8,15 +8,17 @@
     <meta name="author" content="Grzegorz Pieczara">
     <title>{% block title %}{% endblock %}| Assistant Gardeners</title>
 
-
+{#  <script type="text/javascript" src="{% static 'bootstrap-5.2.2-dist/js/jquery.js'  %}"></script>#}
   <link href="{% static 'bootstrap-5.2.2-dist/css/bootstrap.css' %}" rel="stylesheet">
-  <link href="{% static 'nav_bar.css' %}" rel="stylesheet">
+  {% block css %}
+  <link href="{% static 'bootstrap-5.2.2-dist/css/garden.css' %}" rel="stylesheet">
+  {% endblock %}
 
 
   </head>
 
   <body>
-  <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" class="container">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'base_view' %}">Welcome in assistant Gardeners</a>
     {% if user.is_authenticated %}
       <input class=" navbar-brand col-sm-3 col-md-2 mr-0" type="text" placeholder="Welcome {{ user }}" aria-label="Search"
@@ -38,35 +40,47 @@
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
-{#            <a class="nav-link" href="{% url 'dashboard' %}">#}
+{#          <li class="nav-item">#}
+{#            <a class="nav-link" href="#">#}
 {#              <span data-feather="home"></span>#}
-{#              Strona główna <span class="sr-only">(current)</span>#}
+{#              Strona główna#}
 {#            </a>#}
-          </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'task_list' %}">
-              <span data-feather="grid"></span>
-              Task List <span class="sr-only">(current)</span>
-            </a>
-          </li>
+{#          </li>#}
 
-          <li class="nav-item">
+
+         <li class="nav-item">
             <a class="nav-link" href="{% url 'plant_list' %}">
               <span data-feather="feather"></span>
               Plant List
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'task_list' %}">
+              <span data-feather="feather"></span>
+              Task List
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'plan_list' %}">
               <span data-feather="heart"></span>
-              Plan Lis
+              Plan List
             </a>
           </li>
-
+         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Add more to app</span>
+          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
 
           {% if user.is_authenticated %}
         <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="{%  url 'add_plant' %}">
+              <span data-feather="plus-square"></span>
+                Add plant
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{%  url 'add_unit' %}">
               <span data-feather="plus-square"></span>
