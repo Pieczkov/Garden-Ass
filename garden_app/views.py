@@ -57,7 +57,7 @@ class AddPlantView(View):
             form.save()
             return redirect('add_task')
         return render(request, 'forms/add_plant_form.html', {
-            'form': form, 'message': "Failed to register please fill in the form again"})
+            'form': form, 'message': "Failed to add please fill in the form again"})
 
 
 class PlantListView(View):
