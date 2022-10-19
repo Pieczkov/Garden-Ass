@@ -19,28 +19,25 @@ from django.urls import path
 from garden_app import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index_view'),
-    path('home/', views.HomeView.as_view(), name='base_view'),
-    path('add_unit/', views.AddUnitView.as_view(), name='add_unit'),
-    path('add_type/', views.AddPlantTypeView.as_view(), name='add_type'),
-    path('plant_list', views.PlantListView.as_view(), name='plant_list'),
-    path('add_plant', views.AddPlantView.as_view(), name='add_plant'),
-    path('add_task', views.AddTaskView.as_view(), name='add_task'),
-    path('task_list', views.TaskListView.as_view(), name='task_list'),
-    path('add_plan', views.AddPlanOfWorkView.as_view(), name='add_plan'),
-    path('plan_list', views.PlanOfWorkListView.as_view(), name='plan_list'),
-    path('task_view/<int:task_id>/', views.TaskView.as_view(), name='task_view'),
-    path('plan_view/<int:plan_id>/', views.PlanView.as_view(), name='plan_view'),
-    path('task_view/delete/<int:task_id>/', views.TaskDelete.as_view(), name='delete_task'),
-    path('plan_view/delete/<int:plan_id>/', views.PlanDelete.as_view(), name='delete_plan'),
-    path('plant_list/delete/<int:plant_id>/', views.PlantDelete.as_view(), name='delete_plant'),
-    path('plant_list/update/<int:pk>/', views.EditPlantView.as_view(), name='edit_plant'),
-
-
-
-    path('register_user/', views.CreateUserView.as_view(), name='register_user'),
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path("admin/", admin.site.urls),
+    path("", views.IndexView.as_view(), name="index_view"),
+    path("home/", views.HomeView.as_view(), name="base_view"),
+    path("add_unit/", views.AddUnitView.as_view(), name="add_unit"),
+    path("add_type/", views.AddPlantTypeView.as_view(), name="add_type"),
+    path("plant_list", views.PlantListView.as_view(), name="plant_list"),
+    path("add_plant", views.AddPlantView.as_view(), name="add_plant"),
+    path("add_task", views.AddTaskView.as_view(), name="add_task"),
+    path("task_list", views.TaskListView.as_view(), name="task_list"),
+    path("add_plan", views.AddPlanOfWorkView.as_view(), name="add_plan"),
+    path("plan_list", views.PlanOfWorkListView.as_view(), name="plan_list"),
+    path("task_view/<int:task_id>/", views.TaskView.as_view(), name="task_view"),
+    path("plan_view/<int:plan_id>/", views.PlanView.as_view(), name="plan_view"),
+    path("task_view/delete/<int:task_id>/", views.TaskDelete.as_view(), name="delete_task"),
+    path("plan_view/delete/<int:plan_id>/", views.PlanDelete.as_view(), name="delete_plan"),
+    path("plant_list/delete/<int:plant_id>/", views.PlantDelete.as_view(), name="delete_plant"),
+    path("plant_list/update/<int:pk>/", views.EditPlantView.as_view(), name="edit_plant"),
+    path("register_user/", views.CreateUserView.as_view(), name="register_user"),
+    path("login/", views.LoginView.as_view(), name="login"),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
     # path('main/', views.MainPageView.as_view(), name='main_page')
 ]

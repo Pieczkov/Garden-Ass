@@ -6,6 +6,7 @@ from faker import Faker
 import pytest
 
 from garden_app.models import Plant, PlantType, Unit, Task, PlanOfWork
+
 faker = Faker("pl_PL")
 
 
@@ -27,7 +28,7 @@ def create_fake_plant():
         description=faker.sentence(),
         amount=random.randint(1, 10),
         unit=create_fake_unit(),
-        type=create_fake_plant_type()
+        type=create_fake_plant_type(),
     )
     return new_plant
 
@@ -35,18 +36,12 @@ def create_fake_plant():
 def create_fake_task():
     """Generate new task and saves to database"""
     plant = create_fake_plant()
-    new_task = Task.objects.create(
-        name=faker.word(),
-        description=faker.sentence(),
-        plant=plant)
+    new_task = Task.objects.create(name=faker.word(), description=faker.sentence(), plant=plant)
     return new_task
 
 
 def create_fake_plan():
-    new_plan = PlanOfWork.objects.create(
-        name=faker.word(),
-        description=faker.sentence(),
-        date=faker.date())
+    new_plan = PlanOfWork.objects.create(name=faker.word(), description=faker.sentence(), date=faker.date())
     return new_plan
 
 
@@ -72,7 +67,8 @@ def fake_plant():
         description=faker.sentence(),
         amount=random.randint(1, 10),
         unit=unit,
-        type=typee)
+        type=typee,
+    )
     return new_plant
 
 
@@ -81,18 +77,13 @@ def fake_task():
     """Generate new task and saves to database"""
     plan = create_fake_plan()
     plant = create_fake_plant()
-    new_task = Task.objects.create(
-        name=faker.word(),
-        description=faker.sentence(),
-        plant=plant)
+    new_task = Task.objects.create(name=faker.word(), description=faker.sentence(), plant=plant)
     return new_task
+
 
 @pytest.fixture
 def fake_plan():
-    new_plan = PlanOfWork.objects.create(
-        name=faker.word(),
-        description=faker.sentence(),
-        date=faker.date())
+    new_plan = PlanOfWork.objects.create(name=faker.word(), description=faker.sentence(), date=faker.date())
     return new_plan
 
 
@@ -122,6 +113,7 @@ def plants():
         data.append(plant)
     return data
 
+
 @pytest.fixture
 def tasks():
     data = []
@@ -138,4 +130,3 @@ def plans():
         plan = create_fake_plan()
         data.append(plan)
     return data
-

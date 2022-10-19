@@ -50,9 +50,6 @@ class Task(models.Model):
         return f"{self.name}"
 
 
-
-
-
 # class CoWorker(models.Model):
 #     first_name = models.CharField(max_length=60)
 #     last_name = models.CharField(max_length=60)
