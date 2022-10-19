@@ -36,6 +36,9 @@ urlpatterns = [
     path("plan_view/delete/<int:plan_id>/", views.PlanDelete.as_view(), name="delete_plan"),
     path("plant_list/delete/<int:plant_id>/", views.PlantDelete.as_view(), name="delete_plant"),
     path("plant_list/update/<int:pk>/", views.EditPlantView.as_view(), name="edit_plant"),
+    path("task_view/update/<int:pk>/", views.EditTaskView.as_view(), name="edit_task"),
+    path("plan_view/update/<int:pk>/", views.EditPlanView.as_view(), name="edit_plan"),
+
     path("register_user/", views.CreateUserView.as_view(), name="register_user"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),

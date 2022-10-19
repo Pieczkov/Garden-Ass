@@ -1,6 +1,7 @@
 import random
 from datetime import date
 
+from django.contrib.auth.models import User
 from faker import Faker
 
 import pytest
@@ -130,3 +131,8 @@ def plans():
         plan = create_fake_plan()
         data.append(plan)
     return data
+
+
+@pytest.fixture
+def user():
+    return User.objects.create(username='test')

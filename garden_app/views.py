@@ -121,6 +121,13 @@ class TaskView(View):
         return render(request, "task_info.html", {"task": task})
 
 
+class EditTaskView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = AddTaskForm
+    template_name = "forms/task_update_form.html"
+    success_url = reverse_lazy("task_list")
+
+
 class TaskDelete(LoginRequiredMixin, View):
     def get(self, request, task_id):
         task_to_delete = Task.objects.get(id=task_id)
@@ -154,19 +161,18 @@ class PlanView(View):
         return render(request, "plan_info.html", {"plan": plan})
 
 
-class PlanOfWorkListView(LoginRequiredMixin, View):
+class PlanOfWorkListView(View):
     def get(self, request):
         plans = PlanOfWork.objects.all().order_by("date")
         return render(request, "plan_list.html", {"plans": plans})
 
 
-class AddTaskToPlanView(LoginRequiredMixin, View):
-    def post(self, request):
-        task_to_add = Task.objects.all()
-        return render(request, "forms/add_plan_of_work.html", {"task_to_add": task_to_add})
-
-    def get(self, request, plan_id):
-        task_name = request.POST.get("task_name")
+class EditPlanView(LoginRequiredMixin, UpdateView):
+    model = PlanOfWork
+    form_class = AddPlanOfWorkForm
+    # fields = ["name", "description", "date"]
+    template_name = "forms/plan_update_form.html"
+    success_url = reverse_lazy("plan_list")
 
 
 class PlanDelete(LoginRequiredMixin, View):

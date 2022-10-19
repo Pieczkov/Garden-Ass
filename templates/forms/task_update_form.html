@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="row">
+            <h1>Edit task</h1>
+            {% if message %}
+                <div class="card">
+                    <div class="card-body">
+                        <p>{{ message }}</p>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="card w-25">
+                <div class="card-body">
+                    <form method="post" class="form ">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+{% endblock %}
