@@ -26,7 +26,7 @@
           {% for plant in plants %}
             <tr>
               <td>{{ plant.id }}</td>
-                <td><a>{{ plant.name }}</a></td>
+                <td><a href="{{ wiki_base_url }}?search={{ plant.name }}">{{ plant.name }}</a></td>
                 <td>{{ plant.type.name }}</td>
               <td>{{ plant.species }}</td>
               <td>{{ plant.description }}</td>
