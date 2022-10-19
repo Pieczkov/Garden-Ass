@@ -80,16 +80,34 @@ def test_add_plant_get():
 
 # na razie jeden jak znajde czas to dodamy wszytkie mozliwosci
 @pytest.mark.django_db
-def test_add_plant_post(fake_plant_type, fake_unit):
-    client = Client()
-    response = client.post('/add_plant', data={
+@pytest.mark.parametrize(
+    ("data", "should_fail"),
+    (
+            ({
         'name': 'haha',
         'species': 'tree',
         'description': 'kk',
         'amount': 3,
-        'unit': fake_unit.id,
-        'type': fake_plant_type.id
-    })
+            },
+        False),
+            ({
+        'name': 'haha',
+        'species': 'tree',
+        'description': 'kk',
+        'amount': "gfg",
+            },
+        True)
+))
+def test_add_plant_post(fake_plant_type, fake_unit, data, should_fail):
+    client = Client()
+    data = data.update({'unit': fake_unit.id,  'type': fake_plant_type.id})
+    response = client.post('/add_plant', data=data, follow=True)
+
+    if should_fail:
+        assert response.status_code == 404
+        assert len(Plant.objects.all()) == 0
+        return
+
     assert response.status_code == 302
     assert response.url.startswith('/add_task')
     assert Plant.objects.get(name='haha')

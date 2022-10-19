@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import UpdateView
 
@@ -22,7 +23,7 @@ class HomeView(View):
         return render(request, 'base.html')
 
 
-class AddUnitView(View):
+class AddUnitView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'forms/add_unit.html')
 
@@ -36,7 +37,7 @@ class AddUnitView(View):
         return redirect('plant_list')
 
 
-class AddPlantTypeView(View):
+class AddPlantTypeView(LoginRequiredMixin, View):
     def get(self, request):
 
         return render(request, 'forms/add_plant_type.html')
@@ -51,7 +52,7 @@ class AddPlantTypeView(View):
             return redirect('plant_list')
 
 
-class AddPlantView(View):
+class AddPlantView(LoginRequiredMixin, View):
     def get(self, request):
         form = AddPlantForm()
         return render(request, 'forms/add_plant_form.html', {'form': form})
@@ -65,11 +66,13 @@ class AddPlantView(View):
             'form': form, 'message': "Failed to add please fill in the form again"})
 
 
-class EditPlantView(UpdateView):
+class EditPlantView(LoginRequiredMixin, UpdateView):
     model = Plant
-    fields = ['name', 'species', 'description', 'amount', 'unit', 'type']
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('plant_list')
+    # fields = ['name', 'species', 'description', 'amount', 'unit', 'type']
+    form_class = AddPlantForm
+    template_name = "forms/plant_update_form.html"
+    # inaczej mamy blad circular import
+    success_url = reverse_lazy('plan_list')
 
 
 
@@ -82,14 +85,14 @@ class PlantListView(View):
         return render(request, 'plant_list.html', {'plants': plants, "wiki_base_url": wiki_base_url})
 
 
-class PlantDelete(View):
+class PlantDelete(LoginRequiredMixin, View):
     def get(self, request, plant_id):
         plant_to_delete = Plant.objects.get(id=plant_id)
         plant_to_delete.delete()
         return redirect('plant_list')
 
 
-class AddTaskView(View):
+class AddTaskView(LoginRequiredMixin, View):
     def get(self, request):
         form = AddTaskForm()
         return render(request, 'forms/add_task_form.html', {'form': form})
@@ -115,14 +118,14 @@ class TaskView(View):
         return render(request, 'task_info.html', {'task': task})
 
 
-class TaskDelete(View):
+class TaskDelete(LoginRequiredMixin, View):
     def get(self, request, task_id):
         task_to_delete = Task.objects.get(id=task_id)
         task_to_delete.delete()
         return redirect('task_list')
 
 
-class AddPlanOfWorkView(View):
+class AddPlanOfWorkView(LoginRequiredMixin, View):
     def get(self, request):
         form = AddPlanOfWorkForm()
         return render(request, 'forms/add_plan_of_work.html', {'form': form})
@@ -145,13 +148,13 @@ class PlanView(View):
         return render(request, 'plan_info.html', {'plan': plan})
 
 
-class PlanOfWorkListView(View):
+class PlanOfWorkListView(LoginRequiredMixin, View):
     def get(self, request):
         plans = PlanOfWork.objects.all().order_by('date')
         return render(request, 'plan_list.html', {'plans': plans})
 
 
-class AddTaskToPlanView(View):
+class AddTaskToPlanView(LoginRequiredMixin, View):
     def post(self, request):
         task_to_add = Task.objects.all()
         return render(request, 'forms/add_plan_of_work.html', {"task_to_add": task_to_add})
@@ -160,7 +163,7 @@ class AddTaskToPlanView(View):
         task_name = request.POST.get('task_name')
 
 
-class PlanDelete(View):
+class PlanDelete(LoginRequiredMixin, View):
     def get(self, request, plan_id):
         plan_to_delete = PlanOfWork.objects.get(id=plan_id)
         plan_to_delete.delete()

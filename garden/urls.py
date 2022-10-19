@@ -35,7 +35,7 @@ urlpatterns = [
     path('task_view/delete/<int:task_id>/', views.TaskDelete.as_view(), name='delete_task'),
     path('plan_view/delete/<int:plan_id>/', views.PlanDelete.as_view(), name='delete_plan'),
     path('plant_list/delete/<int:plant_id>/', views.PlantDelete.as_view(), name='delete_plant'),
-    path('plant_list/update/<int:plant_id>/', views.EditPlantView.as_view(), name='edit_plant'),
+    path('plant_list/update/<int:pk>/', views.EditPlantView.as_view(), name='edit_plant'),
 
 
 
