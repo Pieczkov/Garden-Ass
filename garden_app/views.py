@@ -2,7 +2,9 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import UpdateView
 
 from garden_app.forms import CreateUserForm, LoginForm, AddPlantForm, AddTaskForm, AddPlanOfWorkForm
 from garden_app.models import Unit, PlantType, Plant, Task, PlanOfWork
@@ -60,6 +62,16 @@ class AddPlantView(View):
             'form': form, 'message': "Failed to register please fill in the form again"})
 
 
+class EditPlantView(UpdateView):
+    model = Plant
+    fields = ['name', 'species', 'description', 'amount', 'unit', 'type']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('plant_list')
+
+
+
+
+
 class PlantListView(View):
     def get(self, request):
         plants = Plant.objects.all().order_by('type__name')
@@ -114,7 +126,10 @@ class AddPlanOfWorkView(View):
     def post(self, request):
         form = AddPlanOfWorkForm(request.POST)
         if form.is_valid():
-            form.save()
+            plan = form.save()
+            for i in form.cleaned_data['task']:
+                plan.task_set.add(i)
+            plan.save()
             return redirect('plan_list')
         return render(request, 'forms/add_plan_of_work.html', {
             'form': form, 'message': "Failed to register please fill in the form again"})
@@ -139,8 +154,6 @@ class AddTaskToPlanView(View):
 
     def get(self, request, plan_id):
         task_name = request.POST.get('task_name')
-
-
 
 
 class PlanDelete(View):

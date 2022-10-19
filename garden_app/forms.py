@@ -27,14 +27,20 @@ class AddPlantForm(forms.ModelForm):
 class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['name', 'description', 'plant', 'plan']
 
 
 class AddPlanOfWorkForm(forms.ModelForm):
 
+    task = forms.ModelMultipleChoiceField(
+        queryset=Task.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
     class Meta:
         model = PlanOfWork
-        fields = ['name', 'description', 'date']
+        fields = ['name', 'description', 'date', 'task']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
