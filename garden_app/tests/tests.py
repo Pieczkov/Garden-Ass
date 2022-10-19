@@ -79,20 +79,20 @@ def test_add_plant_get():
     assert isinstance(form_in_view, AddPlantForm)
 
 # na razie jeden jak znajde czas to dodamy wszytkie mozliwosci
-# @pytest.mark.django_db
-# def test_add_plant_post(fake_plant_type, fake_unit):
-#     client = Client()
-#     response = client.post('/add_plant', data={
-#         'name': 'haha',
-#         'species': 'tree',
-#         'description': 'kk',
-#         'amount': 3,
-#         'unit': fake_unit,
-#         'type': fake_plant_type
-#     })
-#     assert response.status_code == 302
-#     assert response.url.startswith('/add_task')
-#     assert Plant.objects.get(name='test')
+@pytest.mark.django_db
+def test_add_plant_post(fake_plant_type, fake_unit):
+    client = Client()
+    response = client.post('/add_plant', data={
+        'name': 'haha',
+        'species': 'tree',
+        'description': 'kk',
+        'amount': 3,
+        'unit': fake_unit.id,
+        'type': fake_plant_type.id
+    })
+    assert response.status_code == 302
+    assert response.url.startswith('/add_task')
+    assert Plant.objects.get(name='haha')
 
 
 @pytest.mark.django_db
@@ -125,22 +125,22 @@ def test_add_task_get():
     assert isinstance(form_in_view, AddTaskForm)
 
 # na razie jeden jak znajde czas to dodamy wszytkie mozliwosci
-# @pytest.mark.django_db
-# def test_add_task_post(fake_plant, fake_plan):
-#     client = Client()
-#     url = reverse('add_task')
-#     data = {
-#         'name': 'apple',
-#         'description': '',
-#         'plant': fake_plant,
-#         'plan': fake_plan
-#         }
-#     response = client.post(url, data)
-#     assert response.status_code == 302
-#     assert response.url.startswith('/plan_list')
-#     assert Plant.objects.get(name='apple')
-#
-#
+@pytest.mark.django_db
+def test_add_task_post(fake_plant, fake_plan):
+    client = Client()
+    url = reverse('add_task')
+    data = {
+        'name': 'apple',
+        'description': '',
+        'plant': fake_plant.id,
+        'plan': fake_plan.id
+        }
+    response = client.post(url, data)
+    assert response.status_code == 302
+    assert response.url.startswith('/plan_list')
+    assert Task.objects.get(name='apple')
+
+
 @pytest.mark.django_db
 def test_task_list_get(tasks):
     client = Client()
@@ -199,7 +199,6 @@ def test_plan_list_get(plans):
     url = reverse('plan_list')
     response = client.get(url)
     assert response.status_code == 200
-    # plan_from_view = response.context['plans']
     assert PlanOfWork.objects.count() == len(plans)
 
 

@@ -15,6 +15,8 @@ class IndexView(View):
 
 class HomeView(View):
     def get(self, request):
+        # odowlo=anie api
+        # wrzucic kontekstu
         return render(request, 'base.html')
 
 
@@ -34,6 +36,7 @@ class AddUnitView(View):
 
 class AddPlantTypeView(View):
     def get(self, request):
+
         return render(request, 'forms/add_plant_type.html')
 
     def post(self, request):
@@ -62,8 +65,9 @@ class AddPlantView(View):
 
 class PlantListView(View):
     def get(self, request):
+        wiki_base_url = "https://pl.wikipedia.org/w/index.php"
         plants = Plant.objects.all().order_by('type__name')
-        return render(request, 'plant_list.html', {'plants': plants})
+        return render(request, 'plant_list.html', {'plants': plants, "wiki_base_url": wiki_base_url})
 
 
 class PlantDelete(View):
