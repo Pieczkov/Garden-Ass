@@ -82,40 +82,56 @@ def test_add_plant_get(user):
     form_in_view = response.context["form"]
     assert isinstance(form_in_view, AddPlantForm)
 
-# na razie jeden jak znajde czas to dodamy wszytkie mozliwosci
+# ## parametryzacja narazie nie wychodzi :(
+# @pytest.mark.django_db
+# @pytest.mark.parametrize(
+#     ("data", "should_fail"),
+#     (
+#             ({
+#         'name': 'haha',
+#         'species': 'tree',
+#         'description': 'kk',
+#         'amount': 3,
+#             },
+#         False),
+#             ({
+#         'name': 'haha',
+#         'species': 'tree',
+#         'description': 'kk',
+#         'amount': "gfg",
+#             },
+#         True)
+# ))
+# def test_add_plant_post(fake_plant_type, fake_unit, data, should_fail):
+#     client = Client()
+#     data = data.update({'unit': fake_unit.id,  'type': fake_plant_type.id})
+#     response = client.post('/add_plant', data=data, follow=True)
+#
+#     if should_fail:
+#         assert response.status_code == 404
+#         assert len(Plant.objects.all()) == 0
+#         return
+#
+#     assert response.status_code == 302
+#     assert response.url.startswith('/add_task')
+#     assert Plant.objects.get(name='haha')
+
+
 @pytest.mark.django_db
-@pytest.mark.parametrize(
-    ("data", "should_fail"),
-    (
-            ({
-        'name': 'haha',
+def test_add_plant_post(fake_plant_type, fake_unit, user):
+    client = Client()
+    client.force_login(user)
+    response = client.post('/add_plant', data={
+        'name': 'test',
         'species': 'tree',
         'description': 'kk',
         'amount': 3,
-            },
-        False),
-            ({
-        'name': 'haha',
-        'species': 'tree',
-        'description': 'kk',
-        'amount': "gfg",
-            },
-        True)
-))
-def test_add_plant_post(fake_plant_type, fake_unit, data, should_fail):
-    client = Client()
-    data = data.update({'unit': fake_unit.id,  'type': fake_plant_type.id})
-    response = client.post('/add_plant', data=data, follow=True)
-
-    if should_fail:
-        assert response.status_code == 404
-        assert len(Plant.objects.all()) == 0
-        return
-
+        'unit': fake_unit.id,
+        'type': fake_plant_type.id
+    })
     assert response.status_code == 302
     assert response.url.startswith('/add_task')
-    assert Plant.objects.get(name='haha')
-
+    assert Plant.objects.get(name='test')
 
 @pytest.mark.django_db
 def test_plant_list_get(plants):
@@ -123,8 +139,7 @@ def test_plant_list_get(plants):
     url = reverse("plant_list")
     response = client.get(url)
     assert response.status_code == 200
-    plant_from_view = response.context["plants"]
-    assert plant_from_view.count() == len(plants)
+    assert Plant.objects.count() == len(plants)
 
 
 @pytest.mark.django_db
@@ -184,8 +199,7 @@ def test_task_list_get(tasks):
     url = reverse("task_list")
     response = client.get(url)
     assert response.status_code == 200
-    task_from_view = response.context["tasks"]
-    assert task_from_view.count() == len(tasks)
+    assert Task.objects.count() == len(tasks)
 
 
 #

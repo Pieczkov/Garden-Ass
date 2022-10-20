@@ -45,7 +45,7 @@ class AddTaskForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
-            "plan": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "plan": forms.CheckboxSelectMultiple(attrs={"class": "form-control"}),
             "plant": forms.Select(attrs={"class": "form-control"}),
         }
 

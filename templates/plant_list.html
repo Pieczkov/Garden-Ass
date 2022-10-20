@@ -20,36 +20,35 @@
               <th>Description</th>
               <th>Amount</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                {% for plant in plants %}
-                    <tr>
-                        <td>{{ plant.id }}</td>
-                        <td><a href="{{ wiki_base_url }}?search={{ plant.name }}">{{ plant.name }}</a></td>
-                        <td>{{ plant.type.name }}</td>
-                        <td>{{ plant.species }}</td>
-                        <td>{{ plant.description }}</td>
-                        <td>{{ plant.amount }}</td>
-                        <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                            <a href="/plant_list/delete/{{ plant.id }}
-                            " class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            {#                       <p>Are you sure you want to delete "{{ plant }}"?</p>#}
-                            {#                            <input type="submit" value="Confirm">#}
+            </tr>
+          </thead>
+          <tbody>
+          {% for plant in plants %}
+            <tr>
+              <td>{{ plant.id }}</td>
+                <td><a href="{{ wiki_base_url }}?search={{ plant.name }}">{{ plant.name }}</a></td>
+                <td>{{ plant.type.name }}</td>
+              <td>{{ plant.species }}</td>
+              <td>{{ plant.description }}</td>
+              <td>{{ plant.amount }}</td>
+              <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                    <a href="/plant_list/delete/{{ plant.id }}/
+                            "class="btn btn-danger rounded-0 text-light m-1">Delete</a>
+{#                       <p>Are you sure you want to delete "{{ plant }}"?</p>#}
+{#                            <input type="submit" value="Confirm">#}
 
-                            {#                    <a href="/plant/{{ plant.id }}/"#}
-                            {#                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>#}
-                            <a href="/plant_list/update/{{ plant.id }}"
-                               class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+{#                    <a href="/plant/{{ plant.id }}/"#}
+{#                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>#}
+                    <a href="/plant_list/update/{{ plant.id }}"
+                       class="btn btn-warning rounded-0 text-light m-1">Edit</a>
+                </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-</div>
- <div class="dashboard-menu">
+  <div class="dashboard-menu">
     <span class="step-links">
         {% if plants.has_previous %}
             <a href="?page=1">&laquo; First page </a>
@@ -64,13 +63,14 @@
         {% endfor %}|
         </span>
 
-        {% if plants.has_next %}
+        {% if plans.has_next %}
             <a href="?page={{ plants.next_page_number }}">Next &raquo;</a>
         {% elif plants.has_next == False %}
-        Next &raquo;
+        next &raquo;
         {% endif %}
     </span>
   </div>
-</main>
+</div>
+    </main>
 
 {% endblock %}
