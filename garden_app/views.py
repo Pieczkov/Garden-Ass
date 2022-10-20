@@ -212,6 +212,7 @@ class CreateUserView(View):
 
 
 class LoginView(View):
+
     def get(self, request):
         form = LoginForm()
         return render(request, "forms/login_form.html", {"form": form})
