@@ -19,9 +19,7 @@ class IndexView(View):
 
 class HomeView(View):
     def get(self, request):
-        # odowlo=anie api
-        # wrzucic kontekstu
-        return render(request, "base.html")
+        return render(request, 'base.html')
 
 
 class AddUnitView(LoginRequiredMixin, View):
@@ -184,6 +182,10 @@ class EditPlanView(LoginRequiredMixin, UpdateView):
     template_name = "forms/plan_update_form.html"
     success_url = reverse_lazy("plan_list")
 
+class AddTaskToPlanView(View):
+    def post(self, request):
+        task_to_add = Task.objects.all()
+        return render(request, 'forms/add_plan_of_work.html', {"task_to_add": task_to_add})
 
 class PlanDelete(LoginRequiredMixin, View):
     def get(self, request, plan_id):
