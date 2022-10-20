@@ -47,6 +47,30 @@
                 </tbody>
             </table>
         </div>
-    </main>
+
+</div>
+ <div class="dashboard-menu">
+    <span class="step-links">
+        {% if plants.has_previous %}
+            <a href="?page=1">&laquo; First page </a>
+            <a href="?page={{ plants.previous_page_number }}">&laquo; Previous</a>
+            {% elif plants.has_previous == False %}
+                        &laquo; Previous
+        {% endif %}
+
+        <span class="color-header text-uppercase">
+        {% for page in plants.paginator.page_range %}
+        |<a href="?page={{ page }}">{{ page }}</a>
+        {% endfor %}|
+        </span>
+
+        {% if plants.has_next %}
+            <a href="?page={{ plants.next_page_number }}">Next &raquo;</a>
+        {% elif plants.has_next == False %}
+        Next &raquo;
+        {% endif %}
+    </span>
+  </div>
+</main>
 
 {% endblock %}

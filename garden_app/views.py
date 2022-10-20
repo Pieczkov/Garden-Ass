@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -81,7 +82,10 @@ class EditPlantView(LoginRequiredMixin, UpdateView):
 class PlantListView(View):
     def get(self, request):
         wiki_base_url = "https://pl.wikipedia.org/w/index.php"
-        plants = Plant.objects.all().order_by("type__name")
+        plant_list = Plant.objects.all().order_by("type__name")
+        paginator = Paginator(plant_list, 10)
+        page = request.GET.get('page')
+        plants = paginator.get_page(page)
         return render(request, "plant_list.html", {"plants": plants, "wiki_base_url": wiki_base_url})
 
 
@@ -111,8 +115,11 @@ class AddTaskView(LoginRequiredMixin, View):
 
 class TaskListView(View):
     def get(self, request):
-        task_list = Task.objects.all()
-        return render(request, "task_list.html", {"tasks": task_list})
+        task_list = Task.objects.all().order_by('plant')
+        paginator = Paginator(task_list, 10)
+        page = request.GET.get('page')
+        tasks = paginator.get_page(page)
+        return render(request, "task_list.html", {"tasks": tasks})
 
 
 class TaskView(View):
@@ -163,10 +170,13 @@ class PlanView(View):
 
 class PlanOfWorkListView(View):
     def get(self, request):
-        plans = PlanOfWork.objects.all().order_by("date")
+        plan_list = PlanOfWork.objects.all().order_by("date")
+        paginator = Paginator(plan_list, 10)
+        page = request.GET.get('page')
+        plans = paginator.get_page(page)
         return render(request, "plan_list.html", {"plans": plans})
 
-
+## do poprawy nie dziła dodawnie do bazy taskow jak sie mozna bylo spodziewc
 class EditPlanView(LoginRequiredMixin, UpdateView):
     model = PlanOfWork
     form_class = AddPlanOfWorkForm

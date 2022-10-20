@@ -10,24 +10,44 @@ class AddTypeForm(ModelForm):
     class Meta:
         model = PlantType
         fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+        }
 
 
 class AddUnit(ModelForm):
     class Meta:
         model = Unit
         fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+        }
 
 
 class AddPlantForm(forms.ModelForm):
     class Meta:
         model = Plant
-        fields = "__all__"
+        fields = ["name", "species", "description", "amount", "unit", "type"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "species": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "amount": forms.NumberInput(attrs={"class": "form-control"}),
+            "unit": forms.Select(attrs={"class": "form-control"}),
+            "type": forms.Select(attrs={"class": "form-control"}),
+        }
 
 
 class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ["name", "description", "plant", "plan"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "plan": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "plant": forms.Select(attrs={"class": "form-control"}),
+        }
 
 
 class AddPlanOfWorkForm(forms.ModelForm):
@@ -40,7 +60,7 @@ class AddPlanOfWorkForm(forms.ModelForm):
         model = PlanOfWork
         fields = ["name", "description", "date", "task"]
         widgets = {
-            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "date": forms.SelectDateWidget(attrs={"class": "form-control"}),
         }

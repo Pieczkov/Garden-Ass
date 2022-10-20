@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
 {% endblock %}
 {% block table %}
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -35,14 +34,35 @@
                     <ol>{{ plan.name }}</ol>
                     {% endfor %}
                 </td>
-              
-
-
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
-    </main>
+
+  </div>
+  <div class="dashboard-menu">
+    <span class="step-links">
+        {% if tasks.has_previous %}
+            <a href="?page=1">&laquo; First page </a>
+            <a href="?page={{ tasks.previous_page_number }}">&laquo; Previous</a>
+            {% elif tasks.has_previous == False %}
+                        &laquo; Previous
+        {% endif %}
+
+        <span class="color-header text-uppercase">
+        {% for page in tasks.paginator.page_range %}
+        |<a href="?page={{ page }}">{{ page }}</a>
+        {% endfor %}|
+        </span>
+
+        {% if tasks.has_next %}
+            <a href="?page={{ tasks.next_page_number }}">Next &raquo;</a>
+        {% elif tasks.has_next == False %}
+        Next &raquo;
+        {% endif %}
+    </span>
+  </div>
+</main>
 
 {% endblock %}
