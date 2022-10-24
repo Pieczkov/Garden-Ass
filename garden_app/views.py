@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import UpdateView
 
-from garden_app.forms import CreateUserForm, LoginForm, AddPlantForm, AddTaskForm, AddPlanOfWorkForm
+from garden_app.forms import CreateUserForm, LoginForm, AddPlantForm, AddTaskForm, AddPlanOfWorkForm, AddGardenForm
 from garden_app.models import Unit, PlantType, Plant, Task, PlanOfWork
 
 
@@ -174,6 +174,7 @@ class PlanOfWorkListView(View):
         plans = paginator.get_page(page)
         return render(request, "plan_list.html", {"plans": plans})
 
+
 ## do poprawy nie dziła dodawnie do bazy taskow jak sie mozna bylo spodziewc
 class EditPlanView(LoginRequiredMixin, UpdateView):
     model = PlanOfWork
@@ -182,16 +183,31 @@ class EditPlanView(LoginRequiredMixin, UpdateView):
     template_name = "forms/plan_update_form.html"
     success_url = reverse_lazy("plan_list")
 
-class AddTaskToPlanView(View):
-    def post(self, request):
-        task_to_add = Task.objects.all()
-        return render(request, 'forms/add_plan_of_work.html', {"task_to_add": task_to_add})
 
 class PlanDelete(LoginRequiredMixin, View):
     def get(self, request, plan_id):
         plan_to_delete = PlanOfWork.objects.get(id=plan_id)
         plan_to_delete.delete()
         return redirect("plan_list")
+
+
+class AddGardenView(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.is_active
+
+    def get(self, request):
+        form = AddGardenForm()
+        return render(request, "forms/add_garden.html", {'form': form})
+
+    def post(self, request):
+        form = AddGardenForm(request.POST)
+        if form.is_valid():
+            garden = form.save(commit=False)
+            garden.owner = request.user
+            garden.save()
+            return redirect("base_view")
+        return render(request, "forms/add_garden.html", {"form": form})
 
 
 class CreateUserView(View):

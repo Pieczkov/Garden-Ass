@@ -29,6 +29,7 @@ urlpatterns = [
     path("add_task", views.AddTaskView.as_view(), name="add_task"),
     path("task_list", views.TaskListView.as_view(), name="task_list"),
     path("add_plan", views.AddPlanOfWorkView.as_view(), name="add_plan"),
+    path("add_garden", views.AddGardenView.as_view(), name="add_garden"),
     path("plan_list", views.PlanOfWorkListView.as_view(), name="plan_list"),
     path("task_view/<int:task_id>/", views.TaskView.as_view(), name="task_view"),
     path("plan_view/<int:plan_id>/", views.PlanView.as_view(), name="plan_view"),

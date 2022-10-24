@@ -2,11 +2,7 @@
 {% load static %}
 
 {% block content %}
-
-{% endblock %}
-
-{% block table %}
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <h2>Plan {{ plan.name }}</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -42,4 +38,8 @@
             </button>
         </div>
     </main>
+{% endblock %}
+
+{% block table %}
+
 {% endblock %}

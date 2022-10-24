@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
-from garden_app.models import Plant, PlantType, Unit, Task, PlanOfWork
+from garden_app.models import Plant, PlantType, Unit, Task, PlanOfWork, Garden
 
 
 class AddTypeForm(ModelForm):
@@ -63,6 +63,23 @@ class AddPlanOfWorkForm(forms.ModelForm):
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control"}),
             "date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+        }
+
+
+class AddGardenForm(forms.ModelForm):
+
+    class Meta:
+        model = Garden
+        fields = ["name", "location", "area", "task", "plan", "plants"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "location": forms.TextInput(attrs={"class": "form-control"}),
+            "area": forms.NumberInput(attrs={'class': "form_control"}),
+            "Task": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "Plan": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "Plants": forms.SelectMultiple(attrs={"class": "form-control"}),
+
+
         }
 
 
